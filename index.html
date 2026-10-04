@@ -3,58 +3,61 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>致最特别的你</title>
+<title>星光为证</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html, body {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    font-family: 'Georgia', 'Songti SC', 'STSong', serif;
-    background: linear-gradient(135deg, #1a0a1f 0%, #2d1b3d 30%, #4a1942 60%, #6b2d5c 100%);
+    font-family: 'Songti SC', 'STSong', 'Georgia', serif;
+    background: #0a0a1a;
     cursor: pointer;
     user-select: none;
   }
 
-  /* 背景光晕 */
-  .glow {
+  #starCanvas {
     position: fixed;
-    border-radius: 50%;
-    filter: blur(80px);
-    opacity: 0.4;
-    pointer-events: none;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
     z-index: 0;
   }
-  .glow-1 {
-    width: 400px; height: 400px;
-    background: #ff6b9d;
-    top: -100px; left: -100px;
-    animation: float1 8s ease-in-out infinite;
+
+  /* 月亮 */
+  .moon {
+    position: fixed;
+    top: 8%;
+    right: 10%;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #fffde7, #fff9c4 40%, #ffe082 70%, #ffd54f);
+    box-shadow:
+      0 0 40px rgba(255, 235, 150, 0.5),
+      0 0 80px rgba(255, 235, 150, 0.3),
+      0 0 120px rgba(255, 235, 150, 0.15);
+    z-index: 1;
+    animation: moonGlow 4s ease-in-out infinite;
   }
-  .glow-2 {
-    width: 350px; height: 350px;
-    background: #c44dff;
-    bottom: -80px; right: -80px;
-    animation: float2 10s ease-in-out infinite;
+  .moon::before {
+    content: '';
+    position: absolute;
+    top: 15%; left: 20%;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: rgba(200, 180, 120, 0.3);
   }
-  .glow-3 {
-    width: 300px; height: 300px;
-    background: #ff4d6d;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    animation: pulse 4s ease-in-out infinite;
+  .moon::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 55%;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: rgba(200, 180, 120, 0.25);
   }
-  @keyframes float1 {
-    0%, 100% { transform: translate(0, 0); }
-    50% { transform: translate(50px, 30px); }
-  }
-  @keyframes float2 {
-    0%, 100% { transform: translate(0, 0); }
-    50% { transform: translate(-40px, -50px); }
-  }
-  @keyframes pulse {
-    0%, 100% { opacity: 0.2; transform: translate(-50%, -50%) scale(1); }
-    50% { opacity: 0.5; transform: translate(-50%, -50%) scale(1.3); }
+  @keyframes moonGlow {
+    0%, 100% { box-shadow: 0 0 40px rgba(255,235,150,0.5), 0 0 80px rgba(255,235,150,0.3), 0 0 120px rgba(255,235,150,0.15); }
+    50% { box-shadow: 0 0 60px rgba(255,235,150,0.7), 0 0 100px rgba(255,235,150,0.4), 0 0 150px rgba(255,235,150,0.2); }
   }
 
   /* 主内容 */
@@ -71,213 +74,319 @@
     padding: 20px;
   }
 
-  .heart-icon {
-    font-size: 60px;
-    animation: heartbeat 1.2s ease-in-out infinite;
+  .heart {
+    font-size: 48px;
     margin-bottom: 30px;
-    filter: drop-shadow(0 0 20px rgba(255, 107, 157, 0.8));
+    animation: heartbeat 1.5s ease-in-out infinite;
+    filter: drop-shadow(0 0 15px rgba(255, 100, 130, 0.8));
   }
   @keyframes heartbeat {
     0%, 100% { transform: scale(1); }
-    15% { transform: scale(1.25); }
-    30% { transform: scale(1); }
-    45% { transform: scale(1.15); }
-    60% { transform: scale(1); }
+    14% { transform: scale(1.3); }
+    28% { transform: scale(1); }
+    42% { transform: scale(1.2); }
+    56% { transform: scale(1); }
   }
 
   .title {
-    font-size: clamp(28px, 6vw, 52px);
+    font-size: clamp(26px, 5.5vw, 48px);
     color: #fff;
-    margin-bottom: 24px;
-    letter-spacing: 4px;
-    text-shadow: 0 0 30px rgba(255, 182, 193, 0.6);
-    animation: fadeInUp 1.2s ease-out;
+    margin-bottom: 30px;
+    letter-spacing: 6px;
+    text-shadow: 0 0 20px rgba(180, 200, 255, 0.5);
+    min-height: 1.4em;
   }
 
-  .message {
-    font-size: clamp(16px, 3vw, 22px);
-    color: rgba(255, 255, 255, 0.85);
+  .typewriter {
+    font-size: clamp(15px, 2.8vw, 20px);
+    color: rgba(220, 230, 255, 0.9);
+    line-height: 2.2;
+    max-width: 560px;
+    min-height: 6em;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+  }
+
+  .cursor {
+    display: inline-block;
+    width: 2px;
+    height: 1em;
+    background: rgba(255, 255, 255, 0.7);
+    margin-left: 2px;
+    vertical-align: middle;
+    animation: blink 0.8s step-end infinite;
+  }
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  .poem {
+    font-size: clamp(13px, 2.2vw, 16px);
+    color: rgba(255, 200, 180, 0.6);
     line-height: 2;
-    max-width: 600px;
-    margin-bottom: 16px;
-    animation: fadeInUp 1.2s ease-out 0.3s both;
+    max-width: 480px;
+    margin-bottom: 35px;
+    font-style: italic;
+    opacity: 0;
+    transition: opacity 2s ease;
   }
-
-  .message-2 {
-    font-size: clamp(14px, 2.5vw, 18px);
-    color: rgba(255, 182, 193, 0.7);
-    line-height: 1.8;
-    max-width: 500px;
-    margin-bottom: 40px;
-    animation: fadeInUp 1.2s ease-out 0.6s both;
-  }
+  .poem.show { opacity: 1; }
 
   .signature {
-    font-size: clamp(14px, 2.5vw, 18px);
-    color: rgba(255, 255, 255, 0.6);
-    font-style: italic;
-    animation: fadeInUp 1.2s ease-out 0.9s both;
+    font-size: clamp(13px, 2.2vw, 16px);
+    color: rgba(255, 255, 255, 0.5);
+    letter-spacing: 3px;
+    opacity: 0;
+    transition: opacity 2s ease 0.5s;
   }
+  .signature.show { opacity: 1; }
 
   .hint {
     position: fixed;
-    bottom: 30px;
+    bottom: 25px;
     left: 50%;
     transform: translateX(-50%);
-    color: rgba(255, 255, 255, 0.4);
-    font-size: 14px;
-    letter-spacing: 2px;
-    animation: blink 2s ease-in-out infinite;
+    color: rgba(255, 255, 255, 0.35);
+    font-size: 13px;
+    letter-spacing: 3px;
     z-index: 10;
+    animation: hintBlink 2.5s ease-in-out infinite;
   }
-  @keyframes blink {
-    0%, 100% { opacity: 0.3; }
-    50% { opacity: 0.8; }
-  }
-
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(30px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+  @keyframes hintBlink {
+    0%, 100% { opacity: 0.25; }
+    50% { opacity: 0.7; }
   }
 
-  /* 点击爆出的爱心 */
+  /* 点击爆出爱心 */
   .click-heart {
     position: fixed;
     pointer-events: none;
     z-index: 100;
-    font-size: 24px;
-    animation: burst 1.2s ease-out forwards;
+    animation: burst 1.3s ease-out forwards;
   }
   @keyframes burst {
     0% {
       opacity: 1;
-      transform: translate(-50%, -50%) scale(0.3) rotate(0deg);
+      transform: translate(-50%, -50%) scale(0.2) rotate(0deg);
     }
-    20% {
+    25% {
       opacity: 1;
-      transform: translate(-50%, -50%) scale(1.5) rotate(15deg);
+      transform: translate(-50%, -50%) scale(1.6) rotate(20deg);
     }
     100% {
       opacity: 0;
-      transform: translate(var(--tx), var(--ty)) scale(0.5) rotate(var(--rot));
-    }
-  }
-
-  /* 背景飘落爱心 */
-  .falling-heart {
-    position: fixed;
-    top: -30px;
-    pointer-events: none;
-    z-index: 1;
-    opacity: 0;
-    animation: fall linear forwards;
-  }
-  @keyframes fall {
-    0% {
-      opacity: 0;
-      transform: translateY(0) rotate(0deg);
-    }
-    10% { opacity: 0.6; }
-    90% { opacity: 0.4; }
-    100% {
-      opacity: 0;
-      transform: translateY(105vh) rotate(360deg);
+      transform: translate(var(--tx), var(--ty)) scale(0.4) rotate(var(--rot));
     }
   }
 </style>
 </head>
 <body>
 
-<div class="glow glow-1"></div>
-<div class="glow glow-2"></div>
-<div class="glow glow-3"></div>
+<canvas id="starCanvas"></canvas>
+<div class="moon"></div>
 
 <div class="container">
-  <div class="heart-icon">❤️</div>
-  <h1 class="title">遇见你，是我最幸运的事</h1>
-  <p class="message">
-    从见到你的第一眼起，<br>
-    我的世界便有了不一样的色彩。<br>
-    你的笑容是我每天最期待的风景，<br>
-    你的声音是我耳边最温柔的旋律。
+  <div class="heart">💫</div>
+  <h1 class="title" id="title"></h1>
+  <p class="typewriter" id="typewriter"><span class="cursor"></span></p>
+  <p class="poem" id="poem">
+    愿我如星君如月，夜夜流光相皎洁。<br>
+    你是我漫漫长夜中，最亮的那颗星。
   </p>
-  <p class="message-2">
-    想和你一起看日出日落，<br>
-    想和你一起走过春夏秋冬，<br>
-    想把所有的浪漫都留给你。
-  </p>
-  <p class="signature">—— 永远喜欢你的人</p>
+  <p class="signature" id="signature">—— 只为你一人闪耀</p>
 </div>
 
-<div class="hint">✦ 点击屏幕任意位置 ✦</div>
+<div class="hint">✦ 点击夜空，许下心愿 ✦</div>
 
 <script>
-  // 点击爆出爱心
-  const heartEmojis = ['❤️', '💕', '💖', '💗', '💓', '💝', '💘', '🩷', '💞'];
-  
-  document.addEventListener('click', function(e) {
-    const count = 8 + Math.floor(Math.random() * 5);
-    for (let i = 0; i < count; i++) {
-      createHeart(e.clientX, e.clientY);
+// ============ 星空 Canvas ============
+const canvas = document.getElementById('starCanvas');
+const ctx = canvas.getContext('2d');
+let stars = [];
+let meteors = [];
+
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+// 创建星星
+function initStars() {
+  stars = [];
+  const count = Math.floor((canvas.width * canvas.height) / 4000);
+  for (let i = 0; i < count; i++) {
+    stars.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 1.5 + 0.3,
+      alpha: Math.random(),
+      speed: Math.random() * 0.02 + 0.005,
+      direction: Math.random() > 0.5 ? 1 : -1
+    });
+  }
+}
+initStars();
+
+// 创建流星
+function createMeteor() {
+  const startX = Math.random() * canvas.width * 0.7;
+  const startY = Math.random() * canvas.height * 0.3;
+  meteors.push({
+    x: startX,
+    y: startY,
+    len: Math.random() * 80 + 60,
+    speed: Math.random() * 8 + 6,
+    angle: Math.PI / 4 + (Math.random() - 0.5) * 0.3,
+    alpha: 1,
+    width: Math.random() * 2 + 1
+  });
+}
+
+function drawStars() {
+  stars.forEach(s => {
+    s.alpha += s.speed * s.direction;
+    if (s.alpha >= 1) { s.alpha = 1; s.direction = -1; }
+    if (s.alpha <= 0.1) { s.alpha = 0.1; s.direction = 1; }
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(255, 255, 255, ${s.alpha})`;
+    ctx.fill();
+    // 大星星加光晕
+    if (s.r > 1.2) {
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r * 3, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(200, 220, 255, ${s.alpha * 0.15})`;
+      ctx.fill();
     }
   });
+}
 
-  // 触摸支持
-  document.addEventListener('touchstart', function(e) {
-    const touch = e.touches[0];
-    const count = 8 + Math.floor(Math.random() * 5);
-    for (let i = 0; i < count; i++) {
-      createHeart(touch.clientX, touch.clientY);
+function drawMeteors() {
+  meteors.forEach((m, i) => {
+    const tailX = m.x - Math.cos(m.angle) * m.len;
+    const tailY = m.y - Math.sin(m.angle) * m.len;
+    const gradient = ctx.createLinearGradient(m.x, m.y, tailX, tailY);
+    gradient.addColorStop(0, `rgba(255, 255, 255, ${m.alpha})`);
+    gradient.addColorStop(0.3, `rgba(180, 210, 255, ${m.alpha * 0.6})`);
+    gradient.addColorStop(1, 'rgba(180, 210, 255, 0)');
+    ctx.beginPath();
+    ctx.moveTo(m.x, m.y);
+    ctx.lineTo(tailX, tailY);
+    ctx.strokeStyle = gradient;
+    ctx.lineWidth = m.width;
+    ctx.lineCap = 'round';
+    ctx.stroke();
+    // 流星头部光点
+    ctx.beginPath();
+    ctx.arc(m.x, m.y, m.width * 1.5, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(255, 255, 255, ${m.alpha})`;
+    ctx.fill();
+
+    m.x += Math.cos(m.angle) * m.speed;
+    m.y += Math.sin(m.angle) * m.speed;
+    m.alpha -= 0.012;
+    if (m.alpha <= 0 || m.x > canvas.width + 100 || m.y > canvas.height + 100) {
+      meteors.splice(i, 1);
     }
-  }, { passive: true });
+  });
+}
 
-  function createHeart(x, y) {
-    const heart = document.createElement('div');
-    heart.className = 'click-heart';
-    heart.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
-    heart.style.left = x + 'px';
-    heart.style.top = y + 'px';
-    
-    const angle = Math.random() * Math.PI * 2;
-    const distance = 60 + Math.random() * 120;
-    const tx = Math.cos(angle) * distance + 'px';
-    const ty = Math.sin(angle) * distance + 'px';
-    const rot = (Math.random() * 720 - 360) + 'deg';
-    
-    heart.style.setProperty('--tx', tx);
-    heart.style.setProperty('--ty', ty);
-    heart.style.setProperty('--rot', rot);
-    heart.style.fontSize = (16 + Math.random() * 20) + 'px';
-    
-    document.body.appendChild(heart);
-    setTimeout(() => heart.remove(), 1200);
-  }
+function animate() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  // 夜空渐变
+  const bg = ctx.createLinearGradient(0, 0, 0, canvas.height);
+  bg.addColorStop(0, '#050510');
+  bg.addColorStop(0.4, '#0a0a2a');
+  bg.addColorStop(0.7, '#15103a');
+  bg.addColorStop(1, '#1a0a2e');
+  ctx.fillStyle = bg;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  drawStars();
+  drawMeteors();
+  requestAnimationFrame(animate);
+}
+animate();
 
-  // 背景飘落爱心
-  function createFallingHeart() {
-    const heart = document.createElement('div');
-    heart.className = 'falling-heart';
-    heart.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
-    heart.style.left = Math.random() * 100 + 'vw';
-    heart.style.fontSize = (12 + Math.random() * 18) + 'px';
-    const duration = 6 + Math.random() * 8;
-    heart.style.animationDuration = duration + 's';
-    document.body.appendChild(heart);
-    setTimeout(() => heart.remove(), duration * 1000);
-  }
+// 随机流星
+setInterval(() => {
+  if (Math.random() > 0.4) createMeteor();
+}, 2500);
+setTimeout(createMeteor, 1500);
 
-  // 持续生成飘落爱心
-  setInterval(createFallingHeart, 600);
-  // 初始生成一批
-  for (let i = 0; i < 8; i++) {
-    setTimeout(createFallingHeart, i * 200);
+// ============ 打字机效果 ============
+const titleText = '你是我眼中的星辰大海';
+const messageText = '在遇见你之前，我从未想过，一个人的笑容可以点亮整个夜空。你的每一次回眸，都像流星划过心底，让我甘愿沉沦。往后余生，想做你的星空，为你闪耀，为你守候。';
+
+const titleEl = document.getElementById('title');
+const typeEl = document.getElementById('typewriter');
+const poemEl = document.getElementById('poem');
+const sigEl = document.getElementById('signature');
+
+let titleIdx = 0;
+function typeTitle() {
+  if (titleIdx <= titleText.length) {
+    titleEl.textContent = titleText.substring(0, titleIdx);
+    titleIdx++;
+    setTimeout(typeTitle, 120);
+  } else {
+    setTimeout(typeMessage, 500);
   }
+}
+
+let msgIdx = 0;
+function typeMessage() {
+  if (msgIdx <= messageText.length) {
+    typeEl.innerHTML = messageText.substring(0, msgIdx) + '<span class="cursor"></span>';
+    msgIdx++;
+    setTimeout(typeMessage, 55);
+  } else {
+    typeEl.innerHTML = messageText;
+    poemEl.classList.add('show');
+    setTimeout(() => sigEl.classList.add('show'), 800);
+  }
+}
+
+setTimeout(typeTitle, 800);
+
+// ============ 点击爆出爱心 ============
+const heartEmojis = ['❤️', '💕', '💖', '💗', '💓', '💝', '💘', '🩷', '💞', '✨', '⭐', '🌟'];
+
+document.addEventListener('click', function(e) {
+  const count = 10 + Math.floor(Math.random() * 6);
+  for (let i = 0; i < count; i++) {
+    createBurst(e.clientX, e.clientY);
+  }
+  // 点击时也触发一颗流星
+  createMeteor();
+});
+
+document.addEventListener('touchstart', function(e) {
+  const touch = e.touches[0];
+  const count = 10 + Math.floor(Math.random() * 6);
+  for (let i = 0; i < count; i++) {
+    createBurst(touch.clientX, touch.clientY);
+  }
+  createMeteor();
+}, { passive: true });
+
+function createBurst(x, y) {
+  const el = document.createElement('div');
+  el.className = 'click-heart';
+  el.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+  el.style.left = x + 'px';
+  el.style.top = y + 'px';
+  const angle = Math.random() * Math.PI * 2;
+  const distance = 70 + Math.random() * 140;
+  el.style.setProperty('--tx', Math.cos(angle) * distance + 'px');
+  el.style.setProperty('--ty', Math.sin(angle) * distance + 'px');
+  el.style.setProperty('--rot', (Math.random() * 720 - 360) + 'deg');
+  el.style.fontSize = (14 + Math.random() * 22) + 'px';
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 1300);
+}
 </script>
 
 </body>
